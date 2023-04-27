@@ -90,7 +90,7 @@ char *scat(char *dest, char *src) {
 
 char *satok(char *result, const char symbol, char *input[], int count) {
   size_t len = 0;
-  for(int i = 0; i < count; i++){
+  for (int i = 0; i < count; i++) {
     scpy(&result[len], input[i]);
     len = slen(result);
     result[len++] = symbol;
@@ -102,7 +102,7 @@ char *satok(char *result, const char symbol, char *input[], int count) {
 size_t find(char *str, char *w) {
   size_t len = slen(str);
   size_t w_len = slen(w);
-  if(w_len > len)
+  if (w_len > len)
     return len;
   for (size_t id = 0; id < len - w_len; id++) {
     if (sncmp(str + id, w, w_len) == 0)
@@ -127,9 +127,9 @@ int replace(char *str, char *old, char *new) {
   return 0;
 }
 
-char to_upper(char symbol){
-  if(symbol >= 'a' && symbol <= 'z')
-      symbol -= 'a' - 'A';
+char to_upper(char symbol) {
+  if (symbol >= 'a' && symbol <= 'z')
+    symbol -= 'a' - 'A';
   return symbol;
 }
 

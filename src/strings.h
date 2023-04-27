@@ -12,6 +12,6 @@ int stok(char *s, const char symbol, char *output[]);
 char *satok(char *result, const char symbol, char *input[], int count);
 char *scat(char *dest, char *src);
 size_t find(char *str, char *w);
-int replace(char *str, char * old, char * new);
-int replace_all(char *str, char * old, char * new);
+int replace(char *str, char *old, char *new);
+int replace_all(char *str, char *old, char *new);
 char to_upper(char symbol);
