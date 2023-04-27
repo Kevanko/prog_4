@@ -1,5 +1,5 @@
 APP_NAME = main
-CFLAGS = -Wall
+CFLAGS = -Wall -g -O0
 CPPFLAGS = -I src -MP -MMD
 LDFLAGS =
 LDLIBS = 
