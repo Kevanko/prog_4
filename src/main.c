@@ -32,7 +32,7 @@ int main() {
   if (check(test3, result, '+')) {
     output(result);
   }
-  printf("----TEST----\n");
+  printf("---END-TEST----\n");
 
   char delim;
   char *in = input(&delim);
@@ -41,7 +41,7 @@ int main() {
     return 0;
   }
   char *out = process(in, delim);
-  printf("%s\n", out);
+  output(out);
 
   free(result);
   free(out);

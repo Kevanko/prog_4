@@ -41,7 +41,7 @@ int check(char *path, char *result, char delim) {
       scpy(&result[slen(path)], "\n^\nError, path is too long");
       return Error_Length;
     }
-    if (output[i][0] != '/') {
+    else if (output[i][0] != '/') {
       scpy(result, path);
       scpy(&result[slen(path)], "\n^\nError, expected '/'");
       return Error_String;
