@@ -5,7 +5,7 @@
 #include "strings.h"
 
 char *input(char *delim) {
-  char *path = (char *)malloc(MAX_PATH);
+  char *path = (char *)malloc(MAX_STRING);
   printf("delim: ");
   scanf("%c", delim);
   printf("\npath: ");
@@ -23,7 +23,7 @@ char *input(char *delim) {
 <	обозначение перенаправления ввода
 >	обозначение перенаправления вывода
 |	обозначение программного конвейера*/
-int is_currect_symbol(char symbol) {
+int is_correct_symbol(char symbol) {
   char symbols[] = ":*?«<>|\\";
   for (size_t i = 0; i < slen(symbols); i++) {
     if (symbols[i] == symbol)
@@ -32,40 +32,29 @@ int is_currect_symbol(char symbol) {
   return 0;
 }
 
-void print_error(Error err) {
-  char *err_name;
-  switch (err.err) {
-  case 0:
-    return;
-  case Error_Symbol:
-    err_name = "Error unresolved character - :*?«<>|";
-    break;
-  case Error_Length:
-    err_name = "Error max length - 260 symbols";
-    break;
-  case Error_String:
-    err_name = "Error unexpected token";
-    break;
-  default:
-    err_name = "Unexpected Error";
-    break;
+int check(char *path, char *result, char delim) {
+  char *output[12];
+  int count = stok(path, delim, output);
+  for (int i = 0; i < count; i++) {
+    if (slen(output[i]) > MAX_PATH) {
+      scpy(result, path);
+      scpy(&result[slen(path)], "\n^\nError, path is too long");
+      return Error_Length;
+    }
+    if (output[i][0] != '/') {
+      scpy(result, path);
+      scpy(&result[slen(path)], "\n^\nError, expected '/'");
+      return Error_String;
+    }
   }
-
-  fprintf(stdout, "\n%s\n", err.str);
-  for (size_t i = 0; i < err.num; i++) {
-    fprintf(stdout, " ");
-  }
-  fprintf(stdout, "^\n%s\n\n", err_name);
-}
-
-Error check(char *path) {
-  if (slen(path) > MAX_PATH)
-    return (Error){slen(path), Error_Length, path};
   for (size_t i = 0; i < slen(path); i++) {
-    if (is_currect_symbol(path[i]))
-      return (Error){i, Error_Symbol, path};
+    if (is_correct_symbol(path[i])) {
+      scpy(result, path);
+      scpy(&result[slen(path)], "\nError, unresolver symbol - ':*?«<>|\\'");
+      return Error_Symbol;
+    }
   }
-  return (Error){0, 0, NULL};
+  return 0;
 }
 
 /*delim: +
@@ -73,12 +62,13 @@ paths:
 /cygdrive/c/Windows/system32+/cygdrive/e/Distrib/msoffice.exe+/home/alex/prog/lab4.c
 Выход:
 new paths: C:\Windows\system32+E:\Distrib\msoffice.exe+/home/alex/prog/lab4.c*/
-Error process(char *path, const char delim) {
+char *process(char *path, const char delim) {
+  char *result = (char *)malloc(MAX_STRING);
   char *output[12];
   int count = stok(path, delim, output);
   for (int i = 0; i < count; i++) {
-    if (output[i][0] != '/')
-      return (Error){0, Error_String, output[i]};
+    if (check(output[i], result, delim))
+      return result;
 
     if (!replace(output[i], "/cygdrive/", "")) {
       output[i][0] = to_upper(output[i][0]);
@@ -86,15 +76,7 @@ Error process(char *path, const char delim) {
       replace_all(output[i], "/", "\\");
     }
   }
-  path = satok(path, delim, output, count);
-  return (Error){0, 0, NULL};
+  return santok(result, delim, output, count);
 }
 
-void output(char *path, char delim) {
-  Error status;
-  if (print_error(status = check(path)), status.err)
-    return;
-  if (print_error(status = process(path, delim)), status.err)
-    return;
-  printf("new paths: %s\n", path);
-}
+void output(char *path) { printf("\t%s\n\n", path); }

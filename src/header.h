@@ -1,5 +1,6 @@
 #pragma once
 #define MAX_PATH 260
+#define MAX_STRING 4096
 
 enum errors {
   Error_Length = 1,
@@ -7,14 +8,8 @@ enum errors {
   Error_String,
 };
 
-typedef struct Error {
-  size_t num;
-  int err;
-  char *str;
-} Error;
 
 char *input(char *delim);
-void print_error(Error err);
-Error check(char *path);
-Error process(char *path, const char delim);
-void output(char *path, char delim);
+int check(char *path, char *result, char delim);
+char *process(char *path, const char delim);
+void output(char *path);

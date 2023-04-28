@@ -10,27 +10,40 @@
 #include "strings.h"
 
 int main() {
+  char *result = (char *)malloc(MAX_STRING);
   char test1[] = "/cygdrive/c/Windows/system32+home/Andrey";
   char test2[] =
-      "/cygdrive/c/Windows/system323232323232/4343253255552343242342367/"
-      "532723456235r43734533332632/6346346346r634tgre543gfdt43543grdg34534/"
-      "5345346y75rghftgr654634gfdt643/634yghfy346r6y734/"
-      "fyhg4265t4yrt6t54u7yrt654yghfy45/cygdrive/c/Windows/system323232323232/"
-      "4343253255552343242342367/532723456235r43734533332632/"
-      "6346346346r634tgre543gfdt43543grdg34534/5345346y75rghftgr654634gfdt643/"
-      "634yghfy346r6y734/fyhg4265t4yrt6t54u7yrt654yghfy45";
+      "/cygdrive/c/"
+      "Windowssystem32323232323243432532555523432423423675894985849845398453984"
+      "538534984538745387453783457843743746376643746387453874538745387453874537"
+      "843867438678437684376854675467945876958476854698579689879458679845769845"
+      "76984576945769845769845769854769875965679567594678458645";
   char test3[] = "/cygdr:ive/c/Windows/system32";
 
-  printf("----TEST----\n");
-  output(test1, '+');
-  output(test2, '+');
-  output(test3, '+');
+  printf("----1-TEST----\n");
+  if (check(test1, result, '+')) {
+    output(result);
+  }
+  printf("----2-TEST----\n");
+  if (check(test2, result, '+')) {
+    output(result);
+  }
+  printf("----3-TEST----\n");
+  if (check(test3, result, '+')) {
+    output(result);
+  }
   printf("----TEST----\n");
 
   char delim;
-  char *test = input(&delim);
-  output(test, delim);
+  char *in = input(&delim);
+  if (check(in, result, delim)) {
+    output(result);
+    return 0;
+  }
+  char *out = process(in, delim);
+  printf("%s\n", out);
 
-  free(test);
+  free(out);
+  free(in);
   return 0;
 }

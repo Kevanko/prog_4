@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "header.h"
+
 /*  1  */
 size_t slen(char *str) {
   size_t size = 0;
@@ -72,14 +74,17 @@ size_t sspn(char *s, const char *accept) {
 /*  5  */
 int stok(char *s, const char symbol, char *output[]) {
   int count = 0;
-  output[count++] = s;
-  size_t size = slen(s);
+  char *tmp = (char *)malloc(MAX_STRING);
+  tmp = scpy(tmp, s);
+  output[count++] = tmp;
+  size_t size = slen(tmp);
   for (size_t i = 0; i < size; i++) {
-    if (s[i] == symbol) {
-      s[i] = '\0';
-      output[count++] = &s[i + 1];
+    if (tmp[i] == symbol) {
+      tmp[i] = '\0';
+      output[count++] = &tmp[i + 1];
     }
   }
+  free(tmp);
   return count;
 }
 
@@ -88,7 +93,7 @@ char *scat(char *dest, char *src) {
   return dest;
 }
 
-char *satok(char *result, const char symbol, char *input[], int count) {
+char *santok(char *result, const char symbol, char *input[], int count) {
   size_t len = 0;
   for (int i = 0; i < count; i++) {
     scpy(&result[len], input[i]);
