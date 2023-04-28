@@ -43,6 +43,7 @@ int main() {
   char *out = process(in, delim);
   printf("%s\n", out);
 
+  free(result);
   free(out);
   free(in);
   return 0;
