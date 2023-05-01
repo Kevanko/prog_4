@@ -37,23 +37,24 @@ int check(char *path, char *result, char delim) {
   int count = stok(path, delim, output);
   for (int i = 0; i < count; i++) {
     if (slen(output[i]) > MAX_PATH) {
-      scpy(result, path);
-      scpy(&result[slen(path)], "\n^\nError, path is too long");
+      scpy(result, output[i]);
+      scpy(&result[slen(output[i])], "\n^\nError, path is too long");
       return Error_Length;
     }
     else if (output[i][0] != '/') {
-      scpy(result, path);
-      scpy(&result[slen(path)], "\n^\nError, expected '/'");
+      scpy(result, output[i]);
+      scpy(&result[slen(output[i])], "\n^\nError, expected '/'");
       return Error_String;
     }
   }
   for (size_t i = 0; i < slen(path); i++) {
     if (is_correct_symbol(path[i])) {
-      scpy(result, path);
-      scpy(&result[slen(path)], "\nError, unresolver symbol - ':*?«<>|\\'");
+      scpy(result, &path[i]);
+      scpy(&result[slen(&path[i])], "\n^\nError, unresolver symbol - ':*?«<>|\\'");
       return Error_Symbol;
     }
   }
+  santok(path, delim, output, count);
   return 0;
 }
 
@@ -79,4 +80,4 @@ char *process(char *path, const char delim) {
   return santok(result, delim, output, count);
 }
 
-void output(char *path) { printf("\t%s\n\n", path); }
+void output(char *path) { printf("%s\n\n", path); }

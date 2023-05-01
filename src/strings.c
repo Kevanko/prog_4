@@ -74,17 +74,14 @@ size_t sspn(char *s, const char *accept) {
 /*  5  */
 int stok(char *s, const char symbol, char *output[]) {
   int count = 0;
-  char *tmp = (char *)malloc(MAX_STRING);
-  tmp = scpy(tmp, s);
-  output[count++] = tmp;
-  size_t size = slen(tmp);
+  output[count++] = s;
+  size_t size = slen(s);
   for (size_t i = 0; i < size; i++) {
-    if (tmp[i] == symbol) {
-      tmp[i] = '\0';
-      output[count++] = &tmp[i + 1];
+    if (s[i] == symbol) {
+      s[i] = '\0';
+      output[count++] = &s[i + 1];
     }
   }
-  free(tmp);
   return count;
 }
 
@@ -122,7 +119,7 @@ int replace(char *str, char *old, char *new) {
   if (id == slen(str))
     return 1;
 
-  char *str_p = str + id + slen(old);
+  char *str_p = (str + id + slen(old));
   char *tmp = (char *)malloc(slen(str_p));
   scpy(tmp, str_p);
   scpy(str + id, new);
