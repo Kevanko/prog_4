@@ -38,6 +38,7 @@ int main() {
   char *in = input(&delim);
   if (check(in, result, delim)) {
     output(result);
+    return 0;
   }
   char *out = process(in, delim);
   output(out);

@@ -68,9 +68,6 @@ char *process(char *path, const char delim) {
   char *output[12];
   int count = stok(path, delim, output);
   for (int i = 0; i < count; i++) {
-    if (check(output[i], result, delim))
-      return result;
-
     if (!replace(output[i], "/cygdrive/", "")) {
       output[i][0] = to_upper(output[i][0]);
       replace(output[i], "/", ":\\");
